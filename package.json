@@ -1,0 +1,16 @@
+{
+  "name": "generator-qr",
+  "version": "0.1.0",
+  "description": "Qulture.rocks generator package for yeoman",
+  "author": "davicorreiajr",
+  "license": "ISC",
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^3.1.1"
+  }
+}
