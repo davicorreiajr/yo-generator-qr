@@ -5,7 +5,7 @@ module.exports = class extends Generator {
     super(args, opts);
 
     this.argument('generatorType', { type: String, required: true });
-    
+
     this.DEFAULT_COMPONENT_PATH = 'qr-components';
   }
 
@@ -104,7 +104,7 @@ module.exports = class extends Generator {
       '/qr-components.manifest.js' : '/index.js';
 
     var filePath = this.destinationPath('app/javascript/src/modules/' + this.componentPath + indexFileName);
-    var content = 'export { ' + this._getComponentName() + " } from './" + this._getFileName() + "';\n";
+    var content = 'export { default as ' + this._getComponentName() + " } from './" + this._getFileName() + "';\n";
 
     this.fs.append(filePath, content);
   }

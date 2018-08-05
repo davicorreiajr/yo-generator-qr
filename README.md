@@ -32,5 +32,20 @@ The generator will ask for a component name (use "hyphen-case") and where to sav
 
 Finally, the generator will ask if you would like to overwrite a file; this file is the file which exports the component to the rest of the app. So you should accept it.
 
+## Developing
+
+To contribute with this repository:
+ - First you need to fork the project
+ - Create a branch with a meaningful name
+ - Modify the project as you see fit
+ - To test it manually, run:
+ ```
+ $ npm link
+ // It will link this module to current node_modules that has this module (problably global one)
+ ```
+ - run the command you want to see the changes (probably `yo qr component`)
+ - rinse and repeat :)
+ - Later, open a pull request to the main repository.
+
 ## Troubles & sugestions
 This is still a work in progress project, so please, if you find any problem or have some sugestion, don't hesitate to open an issue or even a pull request.
