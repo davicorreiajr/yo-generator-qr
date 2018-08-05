@@ -78,7 +78,7 @@ module.exports = class extends Generator {
   _createJavascriptFile(bindings) {
     this._copyTemplate(
       this._getTemplate('component-js.js'),
-      this._getDestinationPath(this._getComponentPath(), this._getFileName() + '.js'),
+      this._getDestinationPath(this._getComponentPath(), this._getFileName() + '.component.js'),
       bindings
     )
   }
