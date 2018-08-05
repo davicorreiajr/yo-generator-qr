@@ -35,6 +35,8 @@ module.exports = class extends Generator {
     this._createJavascriptFile(bindings);
     this._createTemplateFile(bindings);
     this._createIndexFile(bindings);
+
+    this._updateParentIndexFile();
   }
 
   _getFileName() {
@@ -95,5 +97,15 @@ module.exports = class extends Generator {
       this._getDestinationPath(this._getComponentPath(), 'index.js'),
       bindings
     )
+  }
+
+  _updateParentIndexFile() {
+    var indexFileName = this.componentPath === this.DEFAULT_COMPONENT_PATH ?
+      '/qr-components.manifest.js' : '/index.js';
+
+    var filePath = this.destinationPath('app/javascript/src/modules/' + this.componentPath + indexFileName);
+    var content = 'export { ' + this._getComponentName() + " } from './" + this._getFileName() + "';\n";
+
+    this.fs.append(filePath, content);
   }
 };
