@@ -1,20 +1,99 @@
 var Generator = require('yeoman-generator');
 
 module.exports = class extends Generator {
-  // The name `constructor` is important here
   constructor(args, opts) {
-    // Calling the super constructor is important so our generator is correctly set up
     super(args, opts);
 
-    // Next, add your custom code
-    this.option('babel'); // This method adds support for a `--babel` flag
+    this.argument('generatorType', { type: String, required: true });
+    
+    this.DEFAULT_COMPONENT_PATH = 'qr-components';
   }
 
-  method1() {
-    this.log('method 1 just ran');
+
+  prompting() {
+    return this.prompt([{
+      type    : 'input',
+      name    : 'componentName',
+      message : 'What is the name of the new component? (e.g qr-profile-picture)'
+    }, {
+      type    : 'input',
+      name    : 'componentPath',
+      message : 'Would you like to create the component in which module?',
+      default : this.DEFAULT_COMPONENT_PATH
+    }]).then((answers) => {
+      this._setComponentName(answers.componentName);
+      this._setComponentPath(answers.componentPath);
+    });
   }
 
-  method2() {
-    this.log('method 2 just ran');
+  writing() {
+    var bindings = {
+      fileName: this._getFileName(),
+      componentName: this._getComponentName()
+    };
+
+    this._createJavascriptFile(bindings);
+    this._createTemplateFile(bindings);
+    this._createIndexFile(bindings);
+  }
+
+  _getFileName() {
+    return this.componentName;
+  }
+
+  _getComponentName() {
+    return this.componentName.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+  }
+
+  _getDestinationPath(componentPath, fileName) {
+    return this.destinationPath(componentPath + fileName);
+  }
+
+  _getComponentPath() {
+    return 'app/javascript/src/modules/' + this.componentPath + '/' + this.componentName + '/';
+  }
+
+  _copyTemplate(fromPath, toPath, bindings) {
+    this.fs.copyTpl(fromPath, toPath, bindings);
+  }
+
+  _getTemplate(path) {
+    return this.templatePath(path);
+  }
+
+  _setComponentName(componentName) {
+    this.componentName = componentName;
+  }
+
+  _setComponentPath(componentPath) {
+    if (componentPath === this.DEFAULT_COMPONENT_PATH) {
+      this.componentPath = componentPath;
+    } else {
+      this.componentPath = componentPath + '/components';
+    }
+  }
+
+  _createJavascriptFile(bindings) {
+    this._copyTemplate(
+      this._getTemplate('component-js.js'),
+      this._getDestinationPath(this._getComponentPath(), this._getFileName() + '.js'),
+      bindings
+    )
+  }
+
+  _createTemplateFile(bindings) {
+    this._copyTemplate(
+      this._getTemplate('component-template.slim'),
+      this._getDestinationPath(this._getComponentPath(), this._getFileName() + '.slim'),
+      bindings
+    )
+  }
+
+  _createIndexFile(bindings) {
+    this._copyTemplate(
+      this._getTemplate('component-index.js'),
+      this._getDestinationPath(this._getComponentPath(), 'index.js'),
+      bindings
+    )
   }
 };
