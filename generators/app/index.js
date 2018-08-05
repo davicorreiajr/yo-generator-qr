@@ -14,7 +14,7 @@ module.exports = class extends Generator {
     return this.prompt([{
       type    : 'input',
       name    : 'componentName',
-      message : 'What is the name of the new component? (e.g qr-profile-picture)'
+      message : 'What is the name of the new component? (e.g qr-bleus)'
     }, {
       type    : 'input',
       name    : 'componentPath',
