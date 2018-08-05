@@ -1,5 +1,7 @@
 # Qulture.rocks generator package for Yeoman #
 
+This is an internal project of Qulture.rocks, to ease the components and views creation of our app.
+
 ## Setup
 
 First, make sure you have [Yeoman](http://yeoman.io/) installed:
