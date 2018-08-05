@@ -4,6 +4,10 @@
   "description": "Qulture.rocks generator package for yeoman",
   "author": "davicorreiajr",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davicorreiajr/yo-generator-qr"
+  },
   "files": [
     "generators"
   ],
