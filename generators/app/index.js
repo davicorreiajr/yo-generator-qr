@@ -4,14 +4,34 @@ module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
 
-    this.argument('generatorType', { type: String, required: true });
-
     this.DEFAULT_COMPONENT_PATH = 'qr-components';
+    
+    this._setGeneratorStrategy();
+    this._setGeneratorTypeMapper();
   }
 
+  _setGeneratorStrategy() {
+    this.generatorStrategy = new Map();
+    this.generatorStrategy.set(
+      'component', this._createComponent.bind(this)
+    );
+  }
+
+  _setGeneratorTypeMapper() {
+    this.generatorTypeMapper = new Map();
+    this.generatorTypeMapper.set(
+      'Component', 'component',
+      'Page', 'page'
+    );
+  }
 
   prompting() {
     return this.prompt([{
+      type: 'list',
+      name: 'generatorType',
+      message: 'What would you like to generate?',
+      choices: ['Component', 'Page']
+    }, {
       type    : 'input',
       name    : 'componentName',
       message : 'What is the name of the new component? (e.g qr-bleus)'
@@ -23,10 +43,16 @@ module.exports = class extends Generator {
     }]).then((answers) => {
       this._setComponentName(answers.componentName);
       this._setComponentPath(answers.componentPath);
+      this._setGeneratorType(answers.generatorType)
     });
   }
 
   writing() {
+    var creator = this.generatorStrategy.get(this.generatorType);
+    creator()
+  }
+
+  _createComponent() {
     var bindings = {
       fileName: this._getFileName(),
       componentName: this._getComponentName()
@@ -63,16 +89,20 @@ module.exports = class extends Generator {
     return this.templatePath(path);
   }
 
-  _setComponentName(componentName) {
-    this.componentName = componentName;
+  _setComponentName(name) {
+    this.componentName = name;
   }
 
-  _setComponentPath(componentPath) {
-    if (componentPath === this.DEFAULT_COMPONENT_PATH) {
-      this.componentPath = componentPath;
+  _setComponentPath(path) {
+    if (path === this.DEFAULT_COMPONENT_PATH) {
+      this.componentPath = path;
     } else {
-      this.componentPath = componentPath + '/components';
+      this.componentPath = path + '/components';
     }
+  }
+
+  _setGeneratorType(type) {
+    this.generatorType = this.generatorTypeMapper.get(type);
   }
 
   _createJavascriptFile(bindings) {
