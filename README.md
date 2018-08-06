@@ -19,18 +19,27 @@ $ npm install -g generator-qr
 ## Running
 
 ```
-$ yo qr [option]
+$ yo qr:option
 ```
 
-Today, the only option is `component`, so you will create a component in Qulture.rocks app
+The options allowed are:
+`component`: to create a new component in our app;
+`page`: to create a page, with a route linked.
 
 ```
-$ yo qr component
+$ yo qr:component
 ```
 
 The generator will ask for a component name (use "hyphen-case") and where to save the component; the default place to create a new component is `qr-components`, assuming you will create a generic component to the app.
 
 Finally, the generator will ask if you would like to overwrite a file; this file is the file which exports the component to the rest of the app. So you should accept it.
+
+
+```
+$ yo qr:page
+```
+
+The generator will ask for a page name (use "hyphen-case") and where to create the page.
 
 ## Developing
 
