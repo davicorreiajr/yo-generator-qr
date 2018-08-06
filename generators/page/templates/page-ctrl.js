@@ -1,3 +1,3 @@
-export default function <%= pageName %Ctrl() {
+export default function <%= pageName %>Ctrl() {
   'ngInject';
 }
