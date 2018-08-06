@@ -23,8 +23,8 @@ $ yo qr:option
 ```
 
 The options allowed are:
-`component`: to create a new component in our app;
-`page`: to create a page, with a route linked.
+- `component`: to create a new component in our app;
+- `page`: to create a page, with a route linked.
 
 ```
 $ yo qr:component
