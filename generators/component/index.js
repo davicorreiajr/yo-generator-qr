@@ -7,6 +7,10 @@ module.exports = class extends Generator {
     this.DEFAULT_COMPONENT_PATH = 'qr-components';
   }
 
+  initializing() {
+    this.log('\n Welcome to Qulture.rocks component generator!\n')
+  }
+
   prompting() {
     return this.prompt([{
       type    : 'input',

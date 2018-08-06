@@ -5,6 +5,10 @@ module.exports = class extends Generator {
     super(args, opts);
   }
 
+  initializing() {
+    this.log('\n Welcome to Qulture.rocks page generator!\n')
+  }
+
   prompting() {
     return this.prompt([{
       type    : 'input',
@@ -44,6 +48,7 @@ module.exports = class extends Generator {
 
   end() {
     this.log('\n!!! REMEMBER TO UPDATE THE PARENT FOLDER INDEX TO IMPORT THIS NEW PAGE !!!\n');
+    this.log('\n!!! REMEMBER TO FIX THE STATE NAME AND PAGE URL, IN THE ROUTE FILE !!!\n');
   }
 
   _getFileName() {
