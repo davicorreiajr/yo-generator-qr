@@ -47,6 +47,22 @@ module.exports = class extends Generator {
     });
   }
 
+  _setGeneratorType(type) {
+    this.generatorType = this.generatorTypeMapper.get(type);
+  }
+
+  _setComponentName(name) {
+    this.componentName = name;
+  }
+
+  _setComponentPath(path) {
+    if (path === this.DEFAULT_COMPONENT_PATH) {
+      this.componentPath = path;
+    } else {
+      this.componentPath = path + '/components';
+    }
+  }
+
   writing() {
     var creator = this.generatorStrategy.get(this.generatorType);
     creator()
@@ -73,38 +89,6 @@ module.exports = class extends Generator {
     return this.componentName.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
   }
 
-  _getDestinationPath(componentPath, fileName) {
-    return this.destinationPath(componentPath + fileName);
-  }
-
-  _getComponentPath() {
-    return 'app/javascript/src/modules/' + this.componentPath + '/' + this.componentName + '/';
-  }
-
-  _copyTemplate(fromPath, toPath, bindings) {
-    this.fs.copyTpl(fromPath, toPath, bindings);
-  }
-
-  _getTemplate(path) {
-    return this.templatePath(path);
-  }
-
-  _setComponentName(name) {
-    this.componentName = name;
-  }
-
-  _setComponentPath(path) {
-    if (path === this.DEFAULT_COMPONENT_PATH) {
-      this.componentPath = path;
-    } else {
-      this.componentPath = path + '/components';
-    }
-  }
-
-  _setGeneratorType(type) {
-    this.generatorType = this.generatorTypeMapper.get(type);
-  }
-
   _createJavascriptFile(bindings) {
     this._copyTemplate(
       this._getTemplate('component-js.js'),
@@ -129,6 +113,18 @@ module.exports = class extends Generator {
     )
   }
 
+  _getDestinationPath(componentPath, fileName) {
+    return this.destinationPath(componentPath + fileName);
+  }
+
+  _getComponentPath() {
+    return 'app/javascript/src/modules/' + this.componentPath + '/' + this.componentName + '/';
+  }
+
+  _getTemplate(path) {
+    return this.templatePath(path);
+  }
+
   _updateParentIndexFile() {
     var indexFileName = this.componentPath === this.DEFAULT_COMPONENT_PATH ?
       '/qr-components.manifest.js' : '/index.js';
@@ -137,5 +133,9 @@ module.exports = class extends Generator {
     var content = 'export { default as ' + this._getComponentName() + " } from './" + this._getFileName() + "';\n";
 
     this.fs.append(filePath, content);
+  }
+
+  _copyTemplate(fromPath, toPath, bindings) {
+    this.fs.copyTpl(fromPath, toPath, bindings);
   }
 };
