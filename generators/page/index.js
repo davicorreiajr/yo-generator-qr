@@ -40,8 +40,10 @@ module.exports = class extends Generator {
     this._createRouteFile(bindings)
     this._createTemplateFile(bindings);
     this._createIndexFile(bindings);
+  }
 
-    // this._updateParentIndexFile();
+  end() {
+    this.log('\n!!! REMEMBER TO UPDATE THE PARENT FOLDER INDEX TO IMPORT THIS NEW PAGE !!!\n');
   }
 
   _getFileName() {
